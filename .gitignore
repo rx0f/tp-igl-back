@@ -1,0 +1,6 @@
+# Cache
+__pycache__/
+
+# Packaging
+venv*
+.venv*
