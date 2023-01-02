@@ -1,0 +1,29 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <form action='/sign_in' method='POST'>
+            First name:
+            <input type='text' name='prenom'>
+            <br>
+            Last name:
+            <input type='text' name='nom'>
+            <br>
+            Email:
+            <input type='text' name='email'>
+            <br>
+            Phone number:
+            <input type='text' name='tel'>
+            <br>
+            <button type='submit'>submit</button>
+        </from>
+        <br>
+        {{ errors }}
+    </body>
+</html>
