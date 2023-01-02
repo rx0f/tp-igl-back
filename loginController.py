@@ -1,21 +1,18 @@
 from app import session
+from baseController import *
 
 #Login Function
 def login(request, Utilisateur):
     in_email=request.form['email']
     utilisateur = Utilisateur.query.filter_by(email=in_email).first()
     if(utilisateur==None):
-        return {
-            'result': False,
-            'message': 'No account with given email'
-        }
+        return sendErrorMessage('user not found with given credentials')
     current_user = getattr(utilisateur, 'id')
     setattr(session, 'utilisateur_id', current_user)
-    return {
-            'result': True,
-            'data': utilisateur.toJSON(),
-            'message': 'Login successful'
-        }
+    return sendResponse(
+        data=utilisateur.toJSON(),
+        message='Login successful'
+    )
             
             
 
@@ -36,12 +33,11 @@ def signin(db, request, Utilisateur):
         )
         db.session.add(new_user)
         db.session.commit()
-        return {
-            'result': True,
-            'message': 'Signed in successfully'
-        }
+        return sendResponse(
+            data=new_user,
+            message='Signed in successfully'
+        )
     else:
-        return {
-            'result': False,
-            'message': 'Account found with given email'
-        }
+        return sendErrorMessage(
+            message='An error occured'
+        )

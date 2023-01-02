@@ -67,13 +67,13 @@ def user_account(id):
         }
 
 
-@app.post('/user/depot_annonce')
-def depot_annonce(request):
-    return depotAnnonce(db, request, Utilisateur, Contact, Annonce)
+@app.post('/user/<int:id>/depot_annonce')
+def depot_annonce(id):
+    return depotAnnonce(db, request, Utilisateur, Contact, Annonce, id)
     
 
-@app.post('/user/recherche_annonce')
-def recherche_annonce():
+@app.post('/user/<int:id>/recherche_annonce')
+def recherche_annonce(id):
     annonces = rechercheAnnonce(request, Annonce)
     return[annonce.toJSON() for annonce in annonces]
 
