@@ -92,15 +92,20 @@ def annoncesDeposees(id, Annonce):
 
 
 #Supprimer annonce
-def supprimerAnnonce(db, id, Annonce):
+def supprimerAnnonce(db, user_id, annonce_id, Annonce):
     try:
-        annonce = Annonce.query.get_or_404(id)
-        db.session.delete(annonce)
-        db.session.commit()
-        return sendResponse(
-            data=[],
-            message='Annonce suprimeé'
-        )
+        if(annonceDUtilisateur(user_id, annonce_id, Annonce)):
+            annonce = Annonce.query.get_or_404(id)
+            db.session.delete(annonce)
+            db.session.commit()
+            return sendResponse(
+                data=[],
+                message='Annonce suprimeé'
+            )
+        else:
+            return sendErrorMessage(
+                message='Something went wrong'
+            )
     except:
         return sendErrorMessage(
             message='Something went wrong'

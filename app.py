@@ -3,6 +3,7 @@ from flask_sqlalchemy import session, SQLAlchemy
 from flask_migrate import Migrate, migrate
 from loginController import *
 from annonceController import *
+from messagingController import *
 
 app = Flask(__name__)
 app.app_context().push()
@@ -95,23 +96,23 @@ def annonces_deposees(id):
 
 @app.post('/user/<int:user_id>/annonces/<int:annonce_id>/delete/')
 def supprimer_annonce(user_id, annonce_id):
-    if(annonceDUtilisateur(user_id, annonce_id, Annonce)):
-        return supprimerAnnonce(db, annonce_id, Annonce)
-    else:
-        return {
-            'result': False,
-            'message': 'Something went wrong'
-        }
+    return supprimerAnnonce(db, user_id, annonce_id, Annonce)
+
+
+@app.post('/user/<int:id>/messages')
+def messages_reçus(id):
+    return viewMessages(db, id, Message)
+
+
+@app.post('/user/<int:user_id>/annonces/<int:annonce_id>/message')
+def envoyer_offre(user_id, annonce_id):
+    return sendMessage(db, request, user_id, annonce_id, Message, Annonce)
+
 
 if __name__=='__main__':
     app.run(Debug=True)
     
-    
-#---------------------------------Functions' Definitions----------------------------------------#
 
-
-    
-    
 #------------------------------- Models' Definitions--------------------------------#
 
 class Utilisateur(db.Model):
@@ -123,6 +124,8 @@ class Utilisateur(db.Model):
     role_id = db.Column(db.Integer, unique=False, nullable=False)
     contact_id = db.relationship('Contact', uselist=False, backref='utilisateur')
     list_deposees = db.relationship('Annonce', backref='utilisateur')
+    
+    
     
     def __repr__(self):
         return f'User#{self.id}. Name : {self.first_name} {self.last_name}'
@@ -201,3 +204,24 @@ class Contact(db.Model):
     
     def __repr__(self):
         return f'Contact de {self.nom} {self.prenom}'
+    
+    
+class Message(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.Text, nullable=False)
+    sender_id = db.Column(db.Integer, db.ForeignKey('utilisateur.id'), nullable=False)
+    recipient_id = db.Column(db.Integer, db.ForeignKey('utilisateur.id'), nullable=False)
+    
+    sender = db.relationship('Utilisateur', foreign_keys=[sender_id])
+    recipient = db.relationship('Utilisateur', foreign_keys=[recipient_id])
+    
+    def __repr__(self):
+        return f'Message de {self.sender_id} pour {self.recipient_id}'
+    
+    def toJSON(self):
+        return {
+            'id': self.id,
+            'content': self.content,
+            'sender_id': self.sender_id,
+            'recipient_id' : self.recipient_id
+        }
