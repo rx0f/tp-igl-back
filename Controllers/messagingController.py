@@ -1,4 +1,4 @@
-from baseController import *
+from Controllers.baseController import *
 
 def viewMessages(db, id, Message):
     try:
