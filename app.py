@@ -1,8 +1,11 @@
 from flask import Flask, url_for, request, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from flask_cors import CORS
 
 app = Flask(__name__)
+
+cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 db = SQLAlchemy()
 
