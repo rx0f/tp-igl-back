@@ -26,6 +26,8 @@ class Utilisateur(db.Model):
             'role_id' : self.role_id
         }
     
+    
+    
 
 class Annonce(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -67,6 +69,9 @@ class Photo(db.Model):
     def __repr__(self):
         return f'Photo# {self.id}'
     
+    
+    
+
 
 class Localisation(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -78,6 +83,9 @@ class Localisation(db.Model):
     def __repr__(self):
         return f'{self.wilaya} - {self.commune} - {self.adresse}'
     
+    
+    
+
 class Contact(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nom = db.Column(db.String, nullable=False)
@@ -92,6 +100,9 @@ class Contact(db.Model):
         return f'Contact de {self.nom} {self.prenom}'
     
     
+    
+    
+
 class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.Text, nullable=False)

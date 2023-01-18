@@ -45,7 +45,9 @@ def login():
 
 @app.route('/authorize_login')
 def authorize_login():
-    return authorizeLogin(oauth, Utilisateur)
+    resp = authorizeLogin(oauth, Utilisateur)
+    resp.headers.add('Access-Control-Allow-Origin', '*')
+    return resp
 
 
 @app.route('/sign_in')
@@ -55,11 +57,20 @@ def signin_page():
 
 @app.route('/authorize_sign_in')
 def authorize_sign_in():
-    return authorizeSignIn(oauth, Utilisateur, db)
+    resp = authorizeSignIn(oauth, Utilisateur, db)
+    resp.headers.add('Access-Control-Allow-Origin', '*')
+    return resp
+
+
+@app.post('/logout')
+@login_required
+def logout():
+    return user_logout()
 
 
 
 @app.post('/users')
+@login_required
 def get_users():
     users = Utilisateur.query.all()
     return [user.toJSON() for user in users]
@@ -67,6 +78,7 @@ def get_users():
 
 
 @app.post('/user/<int:id>')
+@login_required
 def user_account(id):
     user = Utilisateur.query.get(id)
     if(user):

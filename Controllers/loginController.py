@@ -1,4 +1,6 @@
 from app import session
+from flask import Flask
+from functools import wraps
 from Controllers.baseController import *
 
 
@@ -91,3 +93,34 @@ def authorizeLogin(oauth, Utilisateur):
         return sendErrorMessage(
             message='Something went wrong'
         )
+        
+        
+#Logout function
+def user_logout():
+    try:
+        for key in list(session.keys()):
+            session.pop(key)
+        return sendResponse (
+            data=None,
+            message='User logged out successfully'
+        )
+    except:
+        return sendErrorMessage(
+            message='Something went wrong'
+        )
+
+
+
+        
+#Login decorator
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        try:
+           if(session['profile']):
+               return f(*args, **kwargs)
+        except Exception as e:
+            return sendErrorMessage(
+                message='You are not logged in'
+            )
+    return decorated_function
