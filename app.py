@@ -1,8 +1,11 @@
-from flask import Flask, redirect, url_for, render_template, request, make_response, session
+from flask import Flask, url_for, request, session
 from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate, migrate
+from flask_migrate import Migrate
+from flask_cors import CORS
 
 app = Flask(__name__)
+
+cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 db = SQLAlchemy()
 
@@ -18,13 +21,18 @@ from Models.models import Utilisateur, Annonce, Contact, Message
 from Controllers.loginController import *
 from Controllers.annonceController import *
 from Controllers.messagingController import *
-from authInit import oauth, google
+from authInit import oauth
 
 migrate = Migrate(app, db)
 
 
-@app.route('/')
-def hello_world():
+@app.route("/")
+def index():
+    return 'Hello, World!'
+
+
+@app.route('/test')
+def test():
     data = session['profile']
     email = dict(session)['profile']['email']
     return f'Hello, you are logge in as {email}!  {data}'
