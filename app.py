@@ -5,7 +5,7 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 
-cors = CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app)
 
 db = SQLAlchemy()
 
@@ -46,7 +46,6 @@ def login():
 @app.route('/authorize_login')
 def authorize_login():
     resp = authorizeLogin(oauth, Utilisateur)
-    resp.headers.add('Access-Control-Allow-Origin', '*')
     return resp
 
 
@@ -58,7 +57,6 @@ def signin_page():
 @app.route('/authorize_sign_in')
 def authorize_sign_in():
     resp = authorizeSignIn(oauth, Utilisateur, db)
-    resp.headers.add('Access-Control-Allow-Origin', '*')
     return resp
 
 
