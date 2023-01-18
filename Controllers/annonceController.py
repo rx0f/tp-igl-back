@@ -3,7 +3,7 @@ from Controllers.baseController import *
 
 
 #Deposer une annonce
-def depotAnnonce(db, request, Utilisateur, Contact, Annonce, id):
+def depotAnnonce(db, request, Utilisateur, Contact, Annonce, Localisation,id):
     try:
         user = Utilisateur.query.get_or_404(id)
         user_contact = Contact.query.filter_by(utilisateur_id = id).first()
@@ -11,7 +11,6 @@ def depotAnnonce(db, request, Utilisateur, Contact, Annonce, id):
             user_contact = Contact (
                 nom = user.nom,
                 prenom = user.prenom,
-                adresse='TBD',
                 email = user.email,
                 telephone = user.telephone,
                 utilisateur = user
@@ -27,6 +26,13 @@ def depotAnnonce(db, request, Utilisateur, Contact, Annonce, id):
             contact = user_contact,
             localisation = None
         )
+        new_localisation = Localisation(
+            wilaya = request.form['wilaya'],
+            commune = request.form['commune'],
+            adresse = request.form['adresse'],
+            annoce_id = new_annonce.id
+        )
+        new_annonce.localisation = new_localisation
         db.session.add(new_annonce)
         db.session.commit()
         return sendResponse(

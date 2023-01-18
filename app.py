@@ -50,8 +50,15 @@ def authorize_sign_in():
     return authorizeSignIn(oauth, Utilisateur, db)
 
 
+@app.post('/logout')
+@login_required
+def logout():
+    return user_logout()
+
+
 
 @app.post('/users')
+@login_required
 def get_users():
     users = Utilisateur.query.all()
     return [user.toJSON() for user in users]
@@ -59,6 +66,7 @@ def get_users():
 
 
 @app.post('/user/<int:id>')
+@login_required
 def user_account(id):
     user = Utilisateur.query.get(id)
     if(user):
