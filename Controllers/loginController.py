@@ -7,9 +7,7 @@ from Controllers.baseController import *
 def oAuthLinkGenerate(oauth, url_for, url):
     google = oauth.create_client('google')  # create the google oauth client
     redirect_uri = url_for('authorize'+'_'+url, _external=True)
-    resp = google.authorize_redirect(redirect_uri)
-    resp.headers.add('Access-Control-Allow-Origin', '*')
-    return resp
+    return google.authorize_redirect(redirect_uri)
 
 
 
