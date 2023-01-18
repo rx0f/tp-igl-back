@@ -1,4 +1,5 @@
 from app import session
+from flask import Flask
 from functools import wraps
 from Controllers.baseController import *
 
