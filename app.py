@@ -1,11 +1,11 @@
 from flask import Flask, url_for, request, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
 
-CORS(app)
+CORS(app, support_credentials=True)
 
 db = SQLAlchemy()
 
@@ -47,22 +47,26 @@ def test():
 
 
 @app.route('/login')
+@cross_origin(supports_credentials=True)
 def login():
     return oAuthLinkGenerate(oauth, url_for, 'login')
 
 
 @app.route('/authorize_login')
+@cross_origin(supports_credentials=True)
 def authorize_login():
     resp = authorizeLogin(oauth, Utilisateur)
     return resp
 
 
 @app.route('/sign_in')
+@cross_origin(supports_credentials=True)
 def signin_page():
     return oAuthLinkGenerate(oauth, url_for, 'sign_in')
 
 
 @app.route('/authorize_sign_in')
+@cross_origin(supports_credentials=True)
 def authorize_sign_in():
     resp = authorizeSignIn(oauth, Utilisateur, db)
     return resp
