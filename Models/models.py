@@ -7,6 +7,7 @@ class Utilisateur(db.Model):
     prenom = db.Column(db.String(20), unique=False, nullable=False)
     email = db.Column(db.String, unique=True, nullable=False)
     telephone = db.Column(db.String, unique=False, nullable=False)
+    confirmed_data = db.Column(db.Integer, unique=False, nullable=False)
     role_id = db.Column(db.Integer, unique=False, nullable=False)
     contact_id = db.relationship('Contact', uselist=False, backref='utilisateur')
     list_deposees = db.relationship('Annonce', backref='utilisateur')
@@ -68,6 +69,13 @@ class Photo(db.Model):
     
     def __repr__(self):
         return f'Photo# {self.id}'
+    
+    def toJSON(self):
+        return {
+            'id': self.id,
+            'url': self.url,
+            'annonce_id': self.annonce_id
+        }
     
     
     
