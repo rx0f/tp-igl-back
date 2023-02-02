@@ -1,5 +1,5 @@
 from Controllers.baseController import *
-from flask import request
+from flask import request, session
 import os
 
 def photoAdded(db, annonce__id, Photo):
@@ -21,11 +21,22 @@ def photoAdded(db, annonce__id, Photo):
             message = 'Something went wrong'
         )
         
-def deletePhoto(id, Annonce, Photo):
+def deletePhoto(db, id, Annonce, Photo):
     try:
         photo = Photo.query.get_or_404(id)
         owner_id = Annonce.query.get_or_404(photo.annonce_id).toJSON().utilisateur_id
-        if(photo.id == 4):
-            pass
+        if(owner_id == session['user']):
+            db.session.delete(photo)
+            db.session.commit()
+            return sendResponse(
+                data=[],
+                message='Photo deleted successfully'
+            )
+        else:
+            return sendErrorMessage(
+                message='Only the owner of this picture can delete it'
+            )
     except:
-        pass
+        return sendErrorMessage(
+            message='Something went wrong'
+        )
