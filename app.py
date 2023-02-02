@@ -2,6 +2,8 @@ from flask import Flask, url_for, request, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_cors import CORS, cross_origin
+from werkzeug.utils import secure_filename
+import os
 
 app = Flask(__name__)
 
@@ -17,11 +19,11 @@ db.init_app(app)
 
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
-from Models.models import Utilisateur, Annonce, Contact, Message
+from Models.models import *
 from Controllers.loginController import *
 from Controllers.annonceController import *
 from Controllers.messagingController import *
-from authInit import oauth
+from Controllers.photoController import *
 
 migrate = Migrate(app, db)
 
@@ -41,35 +43,16 @@ def index():
 
 @app.route('/test')
 def test():
-    data = session['profile']
-    email = dict(session)['profile']['email']
-    return f'Hello, you are logge in as {email}!  {data}'
+    data = session['user']
+    id = dict(session)['user']
+    return f'Hello, you are logge in as user#{id}!  {data}'
 
 
-@app.route('/login')
+@app.post('/login')
 @cross_origin(supports_credentials=True)
 def login():
-    return oAuthLinkGenerate(oauth, url_for, 'login')
+    return loginFunction(db, request, Utilisateur)
 
-
-@app.route('/authorize_login')
-@cross_origin(supports_credentials=True)
-def authorize_login():
-    resp = authorizeLogin(oauth, Utilisateur)
-    return resp
-
-
-@app.route('/sign_in')
-@cross_origin(supports_credentials=True)
-def signin_page():
-    return oAuthLinkGenerate(oauth, url_for, 'sign_in')
-
-
-@app.route('/authorize_sign_in')
-@cross_origin(supports_credentials=True)
-def authorize_sign_in():
-    resp = authorizeSignIn(oauth, Utilisateur, db)
-    return resp
 
 
 @app.post('/logout')
@@ -79,7 +62,7 @@ def logout():
 
 
 
-@app.post('/users')
+@app.route('/users')
 @login_required
 def get_users():
     users = Utilisateur.query.all()
@@ -101,7 +84,7 @@ def user_account(id):
 
 @app.post('/user/<int:id>/depot_annonce')
 def depot_annonce(id):
-    return depotAnnonce(db, request, Utilisateur, Contact, Annonce, id)
+    return depotAnnonce(db, request, Utilisateur, Contact, Annonce, Localisation, id)
     
 
 @app.post('/user/<int:id>/recherche_annonce')
@@ -138,6 +121,21 @@ def messages_recus(id):
 @app.post('/user/<int:user_id>/annonces/<int:annonce_id>/message')
 def envoyer_offre(user_id, annonce_id):
     return sendMessage(db, request, user_id, annonce_id, Message, Annonce)
+
+
+@app.route('/annonces/<int:annonce_id>/add_photo')
+def imageAdd(annonce_id):
+    return f"<form action = '/upload_image' method = 'post' enctype='multipart/form-data'><input type='file' name='file' /><input type='hidden' name='annonce_id' value={annonce_id}><input type = 'submit' value='Upload'></form>"
+
+
+@app.post('/upload_photo')
+def uploadImage():
+    return photoAdded(db, request.form['annonce_id'], Photo)
+
+
+@app.post('photos/<int:id>/delete_photo')
+def deletePhoto(id):
+    return id
 
 
 if __name__=='__main__':
