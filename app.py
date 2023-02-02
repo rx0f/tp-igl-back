@@ -133,9 +133,9 @@ def uploadImage():
     return photoAdded(db, request.form['annonce_id'], Photo)
 
 
-@app.post('photos/<int:id>/delete_photo')
-def deletePhoto(id):
-    return id
+@app.post('/photos/<int:id>/delete_photo')
+def delPhoto(id):
+    return deletePhoto(db, id, Annonce, Photo)
 
 
 if __name__=='__main__':
