@@ -2,6 +2,21 @@ from app import session
 from Controllers.baseController import *
 
 
+def get_all_annonces(Annonce):
+    try:
+        annonces = Annonce.query.all()
+        return sendResponse(
+            data=[annonce.toJSON() for annonce in annonces],
+            message='All announcements'
+        )
+    except:
+        return sendErrorMessage(
+            message='Something went wrong'
+        )
+
+
+
+
 #Deposer une annonce
 def depotAnnonce(db, request, Utilisateur, Contact, Annonce, Localisation,id):
     try:
@@ -59,7 +74,7 @@ def rechercheAnnonce(request, Annonce):
                 if(term in desc or term in title):
                     annonces_list.append(annonce.toJSON())
         return sendResponse(
-            data=annonces_list,
+            data=[annonce.toJSON() for annonce in annonces_list],
             message='Liste des annonces'
         )
     except:
@@ -121,4 +136,4 @@ def supprimerAnnonce(db, user_id, annonce_id, Annonce):
 #Verifier si l'annonce appartient a user_id
 def annonceDUtilisateur(user_id, annonce_id, Annonce):
     annonce = Annonce.query.get_or_404(annonce_id)
-    return (annonce.id == user_id)
+    return (annonce.utilisateur_id == user_id)
