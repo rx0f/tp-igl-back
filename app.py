@@ -67,10 +67,13 @@ def get_users():
 
 
 
-@app.get('/user/<int:id>')
+@app.route('/user/<int:id>', methods=["GET", "PUT"])
 @login_required
 def user_account(id):
-    return get_user(Utilisateur, id)
+    if request.method == "GET":
+        return get_user(Utilisateur, id)
+    if request.method == "PUT":
+        return edit_user(db, Utilisateur, id)
 
 
 @app.post('/user/<int:id>/depot_annonce')
@@ -85,12 +88,12 @@ def recherche_annonce(id):
 
 
 
-@app.post('/annonces')
+@app.get('/annonces')
 def annonce_list():
     return get_all_annonces(Annonce)
 
 
-@app.post('/annonces/<int:id>')
+@app.get('/annonces/<int:id>')
 def details_annonce(id):
     return detailsAnnonce(id, Annonce)
 
