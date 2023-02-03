@@ -6,6 +6,8 @@ app = Flask(__name__)
 
 CORS(app, support_credentials=True)
 
+app.config["CORS_EXPOSE_HEADERS"] = "*"
+
 db = SQLAlchemy()
 
 app.app_context().push()
@@ -26,9 +28,10 @@ from Controllers.userController import *
 
 @app.after_request
 def after_request(response):
-  response.headers.add('Access-Control-Allow-Origin', '*')
+  response.headers.set('Access-Control-Allow-Origin', 'http://localhost:5173')
   response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
   response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+  response.headers.add('Access-Control-Allow-Credentials', 'true')
   return response
 
 
@@ -58,13 +61,13 @@ def logout():
 
 
 
-@app.route('/users')
+@app.get('/users')
 def get_users():
     return get_all_users(Utilisateur)
 
 
 
-@app.post('/user/<int:id>')
+@app.get('/user/<int:id>')
 @login_required
 def user_account(id):
     return get_user(Utilisateur, id)

@@ -25,7 +25,7 @@ def get_user(Utilisateur, id):
             return sendErrorMessage(
                 message='user not found'
             )
-    except:
+    except Exception as e:
         return sendErrorMessage(
-            message='Something went wrong'
+            message=str(e)
         )
