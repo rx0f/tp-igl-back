@@ -90,7 +90,7 @@ def recherche_annonce(id):
 
 @app.get('/annonces')
 def annonce_list():
-    return get_all_annonces(Annonce)
+    return get_all_annonces(Annonce, Localisation)
 
 
 @app.get('/annonces/<int:id>')

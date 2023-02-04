@@ -1,11 +1,16 @@
 from Controllers.baseController import *
 
-
-def get_all_annonces(Annonce):
+def get_all_annonces(Annonce, Localisation):
     try:
+        res_data = []
         annonces = Annonce.query.all()
+        for annonce in annonces:
+            res_annonce = annonce.toJSON()
+            localisation = Localisation.query.filter_by(annonce_id = annonce.id).first()
+            res_annonce["wilaya"] = localisation.wilaya
+            res_data.append(res_annonce)
         return sendResponse(
-            data=[annonce.toJSON() for annonce in annonces],
+            data=res_data,
             message='All announcements'
         )
     except Exception as e:
@@ -38,22 +43,24 @@ def depotAnnonce(db, request, Utilisateur, Contact, Annonce, Localisation, id):
             contact=user_contact,
             localisation=None
         )
+        db.session.add(new_annonce)
+        db.session.commit()
         new_localisation = Localisation(
             wilaya=request.json['wilaya'],
             commune=request.json['commune'],
             adresse=request.json['adresse'],
-            annoce_id=new_annonce.id
+            annonce_id=new_annonce.id
         )
         new_annonce.localisation = new_localisation
-        db.session.add(new_annonce)
+        db.session.add(new_localisation)
         db.session.commit()
         return sendResponse(
             data=new_annonce.toJSON(),
             message='Announcement added successfully'
         )
-    except:
+    except Exception as e:
         return sendErrorMessage(
-            message='Something went wrong'
+            message=str(e)
         )
 
 
