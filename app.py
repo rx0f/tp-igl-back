@@ -108,14 +108,14 @@ def supprimer_annonce(user_id, annonce_id):
     return supprimerAnnonce(db, user_id, annonce_id, Annonce)
 
 
-@app.post('/user/<int:id>/messages')
+@app.get('/user/<int:id>/messages')
 def messages_recus(id):
     return viewMessages(db, id, Message)
 
 
-@app.post('/user/<int:user_id>/annonces/<int:annonce_id>/message')
-def envoyer_offre(user_id, annonce_id):
-    return sendMessage(db, request, user_id, annonce_id, Message, Annonce)
+@app.post('/user/<int:recipient_id>/message')
+def envoyer_offre(recipient_id):
+    return sendMessage(db, request, recipient_id, Message)
 
 
 @app.route('/annonces/<int:annonce_id>/add_photo')
