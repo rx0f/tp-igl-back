@@ -1,12 +1,14 @@
 from Controllers.baseController import *
 
+
 def get_all_annonces(Annonce, Localisation):
     try:
         res_data = []
         annonces = Annonce.query.all()
         for annonce in annonces:
             res_annonce = annonce.toJSON()
-            localisation = Localisation.query.filter_by(annonce_id = annonce.id).first()
+            localisation = Localisation.query.filter_by(
+                annonce_id=annonce.id).first()
             res_annonce["wilaya"] = localisation.wilaya
             res_data.append(res_annonce)
         return sendResponse(
@@ -87,11 +89,16 @@ def rechercheAnnonce(request, Annonce):
 
 
 # Afficher les details d'une annonce
-def detailsAnnonce(id, Annonce):
+def detailsAnnonce(id, Annonce, Contact):
     try:
         annonce = Annonce.query.get_or_404(id)
+        contact = Contact.query.get_or_404(annonce.contact_id)
+        res_data = {
+            "annonce": annonce.toJSON(),
+            "contact": contact.toJSON()
+        }
         return sendResponse(
-            data=annonce.toJSON(),
+            data=res_data,
             message='Annonce detailees'
         )
     except:
@@ -101,11 +108,18 @@ def detailsAnnonce(id, Annonce):
 
 
 # Consultation des annonces deposees
-def annoncesDeposees(id, Annonce):
+def annoncesDeposees(id, Annonce, Localisation):
     try:
+        res_data = []
         annonces = Annonce.query.filter_by(utilisateur_id=id)
+        for annonce in annonces:
+            res_annonce = annonce.toJSON()
+            localisation = Localisation.query.filter_by(
+                annonce_id=annonce.id).first()
+            res_annonce["wilaya"] = localisation.wilaya
+            res_data.append(res_annonce)
         return sendResponse(
-            data=[annonce.toJSON() for annonce in annonces],
+            data=res_data,
             message='Liste des annonces associées'
         )
     except:
@@ -118,20 +132,21 @@ def annoncesDeposees(id, Annonce):
 def supprimerAnnonce(db, user_id, annonce_id, Annonce):
     try:
         if (annonceDUtilisateur(user_id, annonce_id, Annonce)):
-            annonce = Annonce.query.get_or_404(id)
+            annonce = Annonce.query.get_or_404(annonce_id)
+            deleted_annonce = annonce.toJSON()
             db.session.delete(annonce)
             db.session.commit()
             return sendResponse(
-                data=[],
+                data=deleted_annonce,
                 message='Annonce suprimeé'
             )
         else:
             return sendErrorMessage(
                 message='Something went wrong'
             )
-    except:
+    except Exception as e:
         return sendErrorMessage(
-            message='Something went wrong'
+            message=str(e)
         )
 
 
