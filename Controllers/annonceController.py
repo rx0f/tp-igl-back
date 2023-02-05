@@ -1,4 +1,5 @@
 from Controllers.baseController import *
+from flask import session
 
 
 def get_all_annonces(Annonce, Localisation):
@@ -79,12 +80,12 @@ def rechercheAnnonce(request, Annonce):
                 if (term in desc or term in title):
                     annonces_list.append(annonce.toJSON())
         return sendResponse(
-            data=[annonce.toJSON() for annonce in annonces_list],
+            data=[annonce for annonce in annonces_list],
             message='Liste des annonces'
         )
-    except:
+    except Exception as e:
         return sendErrorMessage(
-            message='Something went wrong'
+            message=str(e)
         )
 
 
