@@ -34,6 +34,13 @@ En fin de compte, elle am´eliorera la communication et la transparence sur le m
   <li>Accédez à l'application à l'adresse convenable sur votre navigateur</li>
 </ol>
 
+<h2>Documentation du code</h2>
+<li>La documentation se trouve dans le directoire "Documentation" sous format HTML</li>
+<li>vous pouvez aussi utiliser <b>pydoc</b> pour démarrer un serveur HTTP localement et visualiser la documentation dans votre navigateur préféré <br>
+il suffit juste d'utiliser la commande <b>python -m pydoc -p {port_number} </b>, et vous pouvez voir la documentation à <b>http://localhost:{port_number}/</b> 
+ </li>
+ <li>si vous choisissez <b>0</b> comme un numéro de port, un port arbitraire sera utilisé</li>
+
 <h2>Remarques</h2>
 <p>Veuillez n'hésiter à consulter la documentation de Flask, SQLite, BeautifulSoup, Google OAuth2 et Render</p>
 
