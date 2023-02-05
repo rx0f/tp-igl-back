@@ -37,4 +37,7 @@ En fin de compte, elle am´eliorera la communication et la transparence sur le m
 <h2>Remarques</h2>
 <p>Veuillez n'hésiter à consulter la documentation de Flask, SQLite, BeautifulSoup, Google OAuth2 et Render</p>
 
+<h2>Déploiement</h2>
+<p>Le backend est déployé sur https://tp-igl-back.onrender.com/</p>
+
 Enjoy!
