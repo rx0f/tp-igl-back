@@ -15,7 +15,7 @@ En fin de compte, elle am´eliorera la communication et la transparence sur le m
 </ol>
 <h2>Base de données</h2>
 <ul>
-  <li>La base de données SQLite se trouve dans le dossier `instance`</li>
+  <li><h3>La base de données SQLite se trouve dans le dossier `instance` sous le nom de tp.db</h3></li>
   <li>Vous pouvez utiliser un outil de gestion de base de données SQLite pour interagir avec la base de données</li>
 </ul>
 <h2>Scrapper</h2>
