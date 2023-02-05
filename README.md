@@ -28,6 +28,12 @@ En fin de compte, elle am´eliorera la communication et la transparence sur le m
   <li>Les tests unitaires se trouvent dans le dossier `test`</li>
   <li>Vous pouvez exécuter les tests avec la commande `python -m pytest`</li>
 </ul>
+<h2>Test fonctionnel</h2>
+<ul>
+  <li>Un test fonctionnel est implémenté avec Selinium pour la fonctionnalité "ajouter annonce"</li>
+  <li>Pou exécuter le test installer Python sur votre ordinateur et Selinium avec la commande pip install selenium</li>
+  <li>WebDriver : Selenium utilise un navigateur web pour effectuer les tests. Vous devez donc installer le WebDriver correspondant au navigateur que vous souhaitez utiliser, pour Chrome, suivez les instruction de ce site https://sites.google.com/a/chromium.org/chromedriver/downloads </li>
+</ul>
 <h2>Développement local</h2>
 <ol> 
   <li>Démarrez le serveur local avec la commande `flask run`, si ça ne marche pas utiliser `export FLASK_APP=flaskr; export FLASK_ENV=development; flask run`</li>
