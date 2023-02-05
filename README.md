@@ -6,16 +6,12 @@ En fin de compte, elle am´eliorera la communication et la transparence sur le m
 
 
 <p>Ce repository contient le code source pour le backend d'une application web développé avec Flask. Il inclut une base de données SQLite, un code de scrapping "scrapper.py" fait avec BeautifulSoup, l'authentification par Google OAuth2 et trois tests unitaires. Le backend est déployé sur Render.</p>
-<h2>Prérequis</h2>
-<ul>
-  <li>Connaissance de base en Python et Flask</li>
-  <li>Installation de Python et des packages décrits dans le fichier `requirements.txt`</li>
-</ul>
+
 <h2>Installation des dépendances</h2>
 <ol>
   <li>Clonez ce repository sur votre ordinateur</li>
   <li>Naviguez à l'intérieur du répertoire cloné</li>
-  <li>Exécutez la commande `pip install -r requirements.txt` pour planner les dépendances nécessaires</li>
+  <li>Installer les dépendences necessaires qui se trouvent dans le fichier `requirements.txt`</li>
 </ol>
 <h2>Base de données</h2>
 <ul>
@@ -35,12 +31,10 @@ En fin de compte, elle am´eliorera la communication et la transparence sur le m
 <h2>Développement local</h2>
 <ol>
   <li>Démarrez le serveur local avec la commande `export FLASK_APP=flaskr; export FLASK_ENV=development; flask run`</li>
-  <li>Accédez à l'application à l'adresse `http://localhost:5000` sur votre navigateur</li>
+  <li>Accédez à l'application à l'adresse convenable sur votre navigateur</li>
 </ol>
-<h2>Déploiement</h2>
-<ol>
-  <li>Suivez les instructions de Render pour déployer votre application</li>
-  <li>Assurez-vous d'avoir configuré correctement Google OAuth2 et les variables d'environnement nécessaires pour le déploiement</li>
-</ol>
+
 <h2>Remarques</h2>
-<p>Veuillez n'hésiter à consulter la documentation de Flask, SQLite, BeautifulSoup, Google OAuth2 et Render
+<p>Veuillez n'hésiter à consulter la documentation de Flask, SQLite, BeautifulSoup, Google OAuth2 et Render</p>
+
+Enjoy!
