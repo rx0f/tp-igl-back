@@ -107,7 +107,14 @@ class Contact(db.Model):
     def __repr__(self):
         return f'Contact de {self.nom} {self.prenom}'
     
-    
+    def toJSON(self):
+        return {
+            'id': self.id,
+            'nom': self.nom,
+            'prenom': self.prenom,
+            'email': self.email,
+            'telephone': self.telephone
+        }
     
     
 

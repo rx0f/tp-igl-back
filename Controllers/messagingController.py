@@ -13,14 +13,12 @@ def viewMessages(db, id, Message):
         )
 
 
-def sendMessage(db, request, user_id, annonce_id, Message, Annonce):
+def sendMessage(db, request, recipient_id, Message):
     try:
-        recipient = Annonce.query.get(annonce_id)
-        new_recipient_id = recipient.id
-        new_message = Message (
-            content = request.form['content'],
-            sender_id = user_id,
-            recipient_id = new_recipient_id
+        new_message = Message(
+            content = request.json['content'],
+            sender_id = request.json['sender_id'],
+            recipient_id = recipient_id
         )
         db.session.add(new_message)
         db.session.commit()

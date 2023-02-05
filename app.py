@@ -1,4 +1,4 @@
-from flask import Flask, url_for, request, session
+from flask import Flask, request, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS, cross_origin
 
@@ -28,7 +28,7 @@ from Controllers.userController import *
 
 @app.after_request
 def after_request(response):
-  response.headers.set('Access-Control-Allow-Origin', 'http://localhost:5173')
+  response.headers.set('Access-Control-Allow-Origin', '*')
   response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
   response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
   response.headers.add('Access-Control-Allow-Credentials', 'true')
@@ -95,27 +95,27 @@ def annonce_list():
 
 @app.get('/annonces/<int:id>')
 def details_annonce(id):
-    return detailsAnnonce(id, Annonce)
+    return detailsAnnonce(id, Annonce, Contact)
 
 
-@app.post('/user/<int:id>/annonces')
+@app.get('/user/<int:id>/annonces')
 def annonces_deposees(id):
-    return annoncesDeposees(id, Annonce)
+    return annoncesDeposees(id, Annonce, Localisation)
 
 
-@app.post('/user/<int:user_id>/annonces/<int:annonce_id>/delete/')
+@app.delete('/user/<int:user_id>/annonces/<int:annonce_id>')
 def supprimer_annonce(user_id, annonce_id):
     return supprimerAnnonce(db, user_id, annonce_id, Annonce)
 
 
-@app.post('/user/<int:id>/messages')
+@app.get('/user/<int:id>/messages')
 def messages_recus(id):
     return viewMessages(db, id, Message)
 
 
-@app.post('/user/<int:user_id>/annonces/<int:annonce_id>/message')
-def envoyer_offre(user_id, annonce_id):
-    return sendMessage(db, request, user_id, annonce_id, Message, Annonce)
+@app.post('/user/<int:recipient_id>/message')
+def envoyer_offre(recipient_id):
+    return sendMessage(db, request, recipient_id, Message)
 
 
 @app.route('/annonces/<int:annonce_id>/add_photo')
