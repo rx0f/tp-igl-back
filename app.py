@@ -40,12 +40,6 @@ def index():
     return 'Hello, World!'
 
 
-@app.route('/test')
-def test():
-    data = session['user']
-    id = dict(session)['user']
-    return f'Hello, you are logge in as user#{id}!  {data}'
-
 
 @app.post('/login')
 @cross_origin(supports_credentials=True)
