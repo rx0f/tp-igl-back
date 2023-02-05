@@ -26,11 +26,11 @@ En fin de compte, elle am´eliorera la communication et la transparence sur le m
 <h2>Tests unitaires</h2>
 <ul>
   <li>Les tests unitaires se trouvent dans le dossier `test`</li>
-  <li>Vous pouvez exécuter les tests avec la commande `python -m unittest discover`</li>
+  <li>Vous pouvez exécuter les tests avec la commande `python -m pytest`</li>
 </ul>
 <h2>Développement local</h2>
 <ol> 
-  <li>Démarrez le serveur local avec la commande `export FLASK_APP=flaskr; export FLASK_ENV=development; flask run`</li>
+  <li>Démarrez le serveur local avec la commande `export FLASK_APP=flaskr;export FLASK_ENV=development;flask run`</li>
   <li>Accédez à l'application à l'adresse convenable sur votre navigateur</li>
 </ol>
 
