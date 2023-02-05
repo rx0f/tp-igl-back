@@ -16,9 +16,9 @@ def photoAdded(db, annonce__id, Photo):
             data = new_image.toJSON(),
             message = f'image added successfully at {new_image.url}'
         )
-    except:
+    except Exception as e:
         return sendErrorMessage(
-            message = 'Something went wrong'
+            message = str(e)
         )
         
 def deletePhoto(db, id, Annonce, Photo):
